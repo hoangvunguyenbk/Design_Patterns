@@ -1,2 +1,2 @@
 # Design_Patterns
-Design_Pattern examples implemented in C++
+Design Pattern examples implemented in C++
