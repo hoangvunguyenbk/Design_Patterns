@@ -1,11 +1,10 @@
 /* The command pattern encapsulates a request as an object, thereby letting you
 parameterize other objects with different requests, queue or log requests, and
-support undoable operations. Pros:
-        - Decouple the classes that invoke the operation from the object that
-knows how to execute the operation.
+support undoable operations. 
+Pros:
+        - Decouple the classes that invoke the operation from the object that knows how to execute the operation.
         - Allow to create a sequence commands by providing a queue system.
-        - Add new command is easy  and can be done without changing existing
-code.
+        - Add new command is easy  and can be done without changing existing code.
         - Can design a rollback system.
 Cons:
         - Each command will be separated into 1 class.
@@ -32,6 +31,7 @@ class Device {
   virtual void TurnOff() = 0;
 };
 
+// Concrete receiver classes
 class Light : public Device {
  public:
   Light(string name, eLIGHT_STATE state) : m_name(name), m_state(state) {}
@@ -237,10 +237,8 @@ int main() {
   Command* fan_on_cmd = new CeilingFanOnCommand(dynamic_cast<CeilingFan*>(fan));
   Command* fan_off_cmd = new CeilingFanOffCommand(dynamic_cast<CeilingFan*>(fan));
 
-  remote->SetCommand(0, dynamic_cast<Command*>(light_on_cmd),
-                     dynamic_cast<Command*>(light_off_cmd));
-  remote->SetCommand(1, dynamic_cast<Command*>(fan_on_cmd),
-                     dynamic_cast<Command*>(fan_off_cmd));
+  remote->SetCommand(0, dynamic_cast<Command*>(light_on_cmd),dynamic_cast<Command*>(light_off_cmd));
+  remote->SetCommand(1, dynamic_cast<Command*>(fan_on_cmd), dynamic_cast<Command*>(fan_off_cmd));
 
   remote->onButtonPressed(0);  // light on
   remote->onButtonPressed(1);  // fan on

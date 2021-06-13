@@ -1,14 +1,22 @@
+/* Provide an interface to create object without expose the details of the objects creation to external world !
+and let subclasses decide which class to be instantiated 
+Pros:
+Cons:
+*/
+
 #include <iostream>
 #include <memory>
 #include <utility>
 
 using namespace std;
 
-enum class Investment_Type { stock, bond, real_estate };
+enum class Investment_Type {
+    stock, 
+    bond, 
+    real_estate 
+};
 
-/*
-        Base Class
-*/
+// Base Class
 class IFInvestment {
  public:
   IFInvestment() {}
@@ -22,10 +30,7 @@ class IFInvestment {
   string m_sticker;
 };
 
-/*
-        Stock
-*/
-
+// Stock
 class Stock : public IFInvestment {
  public:
   Stock(const std::string &sticker) {
@@ -48,10 +53,7 @@ class Stock : public IFInvestment {
   }
 };
 
-/*
-        Bond
-*/
-
+// Bond
 class Bond : public IFInvestment {
  public:
   Bond(const std::string &sticker) {
@@ -73,9 +75,7 @@ class Bond : public IFInvestment {
   }
 };
 
-/*
-        RealEstate
-*/
+//RealEstate 
 class RealEstate : public IFInvestment {
  public:
   RealEstate(std::string sticker) {
@@ -97,10 +97,10 @@ class RealEstate : public IFInvestment {
   }
 };
 
+//Factory method
 class TradingFactory {
  public:
-  static std::unique_ptr<IFInvestment> MakeInvestment(
-      const Investment_Type &type, const std::string &sticker) {
+  static std::unique_ptr<IFInvestment> MakeInvestment(const Investment_Type &type, const std::string &sticker) {
     switch (type) {
       case Investment_Type::stock:
         return std::make_unique<Stock>(sticker);
@@ -115,8 +115,8 @@ class TradingFactory {
 };
 
 int main() {
-  std::unique_ptr<IFInvestment> ptr =
-      TradingFactory::MakeInvestment(Investment_Type::stock, "AAPL");
+    
+  std::unique_ptr<IFInvestment> ptr = TradingFactory::MakeInvestment(Investment_Type::stock, "AAPL");
   ptr->Buy(200);
 
   return 0;
